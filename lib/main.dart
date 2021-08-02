@@ -2,19 +2,25 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter2021/rack_home.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([
+    //SystemUiOverlay.top, //This line is used for showing the bottom bar
+  ]);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -34,6 +40,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var result;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
         padding:
             EdgeInsets.only(left: 40.0, top: 40.0, right: 40.0, bottom: 40.0),
         child: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
           child: Column(
             children: <Widget>[
               Padding(
@@ -82,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             )
                           ])))),
               Padding(
-                  padding: EdgeInsets.only(left: 5.0, top: 40.0),
+                  padding: EdgeInsets.only(left: 5.0, top: 20.0),
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: TextField(
@@ -90,23 +98,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         decoration:
                             InputDecoration(border: OutlineInputBorder()),
                       ))),
+              Padding(padding: EdgeInsets.only(top: 10)),
               Align(
                   alignment: Alignment.bottomRight,
-                  child: TextButton(
-                    onPressed: showClicked,
-                    child: Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white),
+                  child: SizedBox(
+                    width: 100,
+                    height: 40,
+                    child: TextButton(
+                      onPressed: showClicked,
+                      child: Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue)),
                     ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue)),
                   )),
             ],
           ),
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
@@ -116,37 +128,40 @@ class _MyHomePageState extends State<MyHomePage> {
     final icons = ['assets/images/user.png'];
 
     return ListView.builder(
+      padding: EdgeInsets.only(left: 20),
       shrinkWrap: true,
       itemCount: titles.length,
       itemBuilder: (context, index) {
-        return Center(
-            child: ListTile(
-          title: Text(
-            titles[index],
-            textAlign: TextAlign.center,
-          ),
-          onTap: () {
-            result = titles[index];
-          },
-          selectedTileColor: Colors.blue,
-          leading: Container(
-              width: 150,
-              height: 30,
-              alignment: Alignment.centerRight,
-              child: CircleAvatar(backgroundImage: AssetImage(icons[0]))),
-        ) // leading: Align(alignment: Alignment.center,child:CircleAvatar(backgroundImage: AssetImage(icons[0])))),
-            );
+        return Container(
+            child: Row(
+          children: [
+            Icon(
+              Icons.account_circle_rounded,
+              size: 40,
+            ),
+            Padding(padding: EdgeInsets.all(10)),
+            Text("Roshan"),
+          ],
+        ));
+
+        // ListTile(
+        //   horizontalTitleGap: 20,
+        //   title: Text(titles[index]),
+        //   leading: CircleAvatar(backgroundImage: AssetImage(icons[0])),
+        // );
       },
     );
   }
 
   void showClicked() {
     setState(() {
-      Fluttertoast.showToast(
-          msg: result==null?"Please select a user":result,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => RackHome()));
+      // Fluttertoast.showToast(
+      //     msg: result == null ? "Please select a user" : result,
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.CENTER,
+      //     timeInSecForIosWeb: 1);
     });
   }
 }
