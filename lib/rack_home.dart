@@ -1,23 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter2021/BaseStatelessClass.dart';
 
-class PopupItem {
-  int value;
-  String name;
-  PopupItem(this.value, this.name);
-}
-
-class RackHome extends StatelessWidget {
-  final icons = ['assets/images/user.png'];
-
-  List<PopupItem> _list = [
-    PopupItem(1, "Log Out"),
-  ];
-
+class RackHome extends BaseStateless {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context) as PreferredSizeWidget,
+      appBar: super.appBar(context) as PreferredSizeWidget,
       body: Container(
           padding: EdgeInsets.all(10),
           height: double.infinity,
@@ -40,12 +29,13 @@ class RackHome extends StatelessWidget {
                     ),
                     IconButton(
                         iconSize: 50,
-                        color: Colors.green,
+                        // color: Colors.green,
                         onPressed: () {},
                         icon: Icon(
                           Icons.switch_camera,
                           // size: 50,
                         )),
+                    Text("Switch Camera")
                   ],
                 ),
               ),
@@ -58,69 +48,34 @@ class RackHome extends StatelessWidget {
                 children: [
                   Chip(
                     backgroundColor: Colors.red,
-                    labelPadding: EdgeInsets.only(left: 20, right: 20),
+                    //labelPadding: EdgeInsets.only(left: 20, right: 20),
                     label: SizedBox(
                       width: 30,
-                      child: Text('180'),
+                      child: Center(child: Text('180')),
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(left: 10)),
                   Chip(
-                    backgroundColor: Colors.red,
-                    labelPadding: EdgeInsets.only(left: 20, right: 20),
+                    backgroundColor: Colors.purple,
+                    //labelPadding: EdgeInsets.only(left: 20, right: 20),
                     label: SizedBox(
                       width: 30,
-                      child: Text('180'),
+                      child: Center(child: Text('12')),
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(left: 10)),
                   Chip(
-                    backgroundColor: Colors.red,
-                    labelPadding: EdgeInsets.only(left: 20, right: 20),
+                    backgroundColor: Colors.green,
+                    //labelPadding: EdgeInsets.only(left: 20, right: 20),
                     label: SizedBox(
                       width: 30,
-                      child: Text('180'),
+                      child: Center(child: Text('4')),
                     ),
                   ),
                 ],
               )
             ],
           )),
-    );
-  }
-
-  Widget getAppBar(BuildContext context) {
-    return AppBar(
-      leading: GestureDetector(
-        onTap: () {
-          if (Navigator.canPop(context)) {
-            Navigator.pop(context);
-          }
-        },
-        child: Icon(Icons.arrow_back),
-      ),
-      backgroundColor: Colors.greenAccent[700],
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(backgroundImage: AssetImage(icons[0])),
-          Padding(padding: EdgeInsets.all(10), child: Text("Roshan")),
-        ],
-      ),
-      actions: [
-        PopupMenuButton(
-            elevation: 20,
-            enabled: true,
-            onSelected: (value) {},
-            itemBuilder: (context) {
-              return _list.map((PopupItem choice) {
-                return PopupMenuItem(
-                  value: choice,
-                  child: Text(choice.name),
-                );
-              }).toList();
-            })
-      ],
     );
   }
 }
